@@ -7,7 +7,11 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import Grid from "@material-ui/core/Grid";
 // @material-ui/icons
 import ContentCopy from "@material-ui/icons/ContentCopy";
+import Currency from "@material-ui/icons/MonetizationOn";
+import HeadCount from "@material-ui/icons/SupervisorAccount";
 import Store from "@material-ui/icons/Store";
+import OtherBU from "@material-ui/icons/Input";
+
 import InfoOutline from "@material-ui/icons/InfoOutline";
 import Warning from "@material-ui/icons/Warning";
 import DateRange from "@material-ui/icons/DateRange";
@@ -19,6 +23,9 @@ import Accessibility from "@material-ui/icons/Accessibility";
 import BugReport from "@material-ui/icons/BugReport";
 import Code from "@material-ui/icons/Code";
 import Cloud from "@material-ui/icons/Cloud";
+import MenuItem from '@material-ui/core/MenuItem';
+
+
 // core components
 import GridItem from "components/Grid/GridItem.jsx";
 import Table from "components/Table/Table.jsx";
@@ -30,6 +37,12 @@ import CardHeader from "components/Card/CardHeader.jsx";
 import CardIcon from "components/Card/CardIcon.jsx";
 import CardBody from "components/Card/CardBody.jsx";
 import CardFooter from "components/Card/CardFooter.jsx";
+import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
+import * as dashboardDataAction  from '../../actions/dashboardData';
+
+
+import { bindActionCreators } from "redux";
 
 import { bugs, website, server } from "variables/general";
 
@@ -43,7 +56,8 @@ import dashboardStyle from "assets/jss/material-dashboard-react/views/dashboardS
 
 class Dashboard extends React.Component {
   state = {
-    value: 0
+    value: 0,
+    billingStatus : {}
   };
   handleChange = (event, value) => {
     this.setState({ value });
@@ -52,29 +66,32 @@ class Dashboard extends React.Component {
   handleChangeIndex = index => {
     this.setState({ value: index });
   };
+
+  componentDidMount(){
+     this.props.dashboardDataAction.getDashboardData();    
+  }
+
   render() {
     const { classes } = this.props;
     return (
       <div>
+        
         <Grid container>
           <GridItem xs={12} sm={6} md={3}>
             <Card>
               <CardHeader color="warning" stats icon>
-                <CardIcon color="warning">
-                  <ContentCopy />
+                <CardIcon style={{background:'gray'}} color="warning">
+                  <HeadCount />
                 </CardIcon>
-                <p className={classes.cardCategory}>Used Space</p>
-                <h3 className={classes.cardTitle}>
-                  49/50 <small>GB</small>
-                </h3>
+                <p className={classes.cardCategory}>Head Count</p>
+                <h3 className={classes.cardTitle}>{this.props.billingStatus.headcount}</h3>          
               </CardHeader>
               <CardFooter stats>
                 <div className={classes.stats}>
-                  <Danger>
+                  {/* <Danger>
                     <Warning />
-                  </Danger>
-                  <a href="#pablo" onClick={e => e.preventDefault()}>
-                    Get more space
+                  </Danger> */}
+                  <a href="#pablo" onClick={e => e.preventDefault()}>                    
                   </a>
                 </div>
               </CardFooter>
@@ -84,15 +101,30 @@ class Dashboard extends React.Component {
             <Card>
               <CardHeader color="success" stats icon>
                 <CardIcon color="success">
-                  <Store />
+                  <Currency />
                 </CardIcon>
-                <p className={classes.cardCategory}>Revenue</p>
-                <h3 className={classes.cardTitle}>$34,245</h3>
+                <p className={classes.cardCategory}>Billable</p>
+                <h3 className={classes.cardTitle}>{this.props.billingStatus.billable}</h3>
               </CardHeader>
               <CardFooter stats>
                 <div className={classes.stats}>
-                  <DateRange />
-                  Last 24 Hours
+                  {/* <DateRange />                 */}
+                </div>
+              </CardFooter>
+            </Card>
+          </GridItem>
+          <GridItem xs={12} sm={6} md={3}>
+            <Card>
+              <CardHeader color="danger" stats icon>
+                <CardIcon style={{background:'yellow'}} color="danger">
+                  <Store />
+                </CardIcon>
+                <p className={classes.cardCategory}>Bench</p>
+                <h3 className={classes.cardTitle}>{this.props.billingStatus.bench}</h3>
+              </CardHeader>
+              <CardFooter stats>
+                <div className={classes.stats}>
+                  {/* <LocalOffer />                   */}
                 </div>
               </CardFooter>
             </Card>
@@ -101,20 +133,35 @@ class Dashboard extends React.Component {
             <Card>
               <CardHeader color="danger" stats icon>
                 <CardIcon color="danger">
-                  <InfoOutline />
+                <Warning />
                 </CardIcon>
-                <p className={classes.cardCategory}>Fixed Issues</p>
-                <h3 className={classes.cardTitle}>75</h3>
+                <p className={classes.cardCategory}>PIP</p>
+                <h3 className={classes.cardTitle}>{this.props.billingStatus.PIP}</h3>
               </CardHeader>
               <CardFooter stats>
                 <div className={classes.stats}>
-                  <LocalOffer />
-                  Tracked from Github
+                  {/* <LocalOffer />                   */}
                 </div>
               </CardFooter>
             </Card>
           </GridItem>
           <GridItem xs={12} sm={6} md={3}>
+            <Card>
+              <CardHeader color="danger" stats icon>
+                <CardIcon style={{background:'saddlebrown'}} color="danger">
+                  <OtherBU />
+                </CardIcon>
+                <p className={classes.cardCategory}>Hired from other BU</p>
+                <h3 className={classes.cardTitle}>{this.props.billingStatus.OtherBU}</h3>
+              </CardHeader>
+              <CardFooter stats>
+                <div className={classes.stats}>
+                  {/* <LocalOffer />                   */}
+                </div>
+              </CardFooter>
+            </Card>
+          </GridItem>
+          {/* <GridItem xs={12} sm={6} md={3}>
             <Card>
               <CardHeader color="info" stats icon>
                 <CardIcon color="info">
@@ -273,15 +320,26 @@ class Dashboard extends React.Component {
                 />
               </CardBody>
             </Card>
-          </GridItem>
+          </GridItem>*/}
         </Grid>
-      </div>
+      </div> 
     );
   }
 }
+// export default withStyles(dashboardStyle)(Dashboard);
 
 Dashboard.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(dashboardStyle)(Dashboard);
+const mapStateToProps = (state) => ({
+  billingStatus: state.dashboardData.billingStatus,
+  errors: state.dashboardData.errors
+})
+
+const mapDispatchToProps = (dispatch) => ({
+  dashboardDataAction: bindActionCreators(dashboardDataAction,dispatch)
+
+});
+
+export default withRouter(connect(mapStateToProps,mapDispatchToProps)(withStyles(dashboardStyle)(Dashboard)));

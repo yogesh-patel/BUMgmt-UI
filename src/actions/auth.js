@@ -4,5 +4,5 @@ export const auth = () => dispatch =>{
     dispatch({
         type: Constants.LOGIN
     });
-    history.push('/user');
+    // history.push('/user');
 }

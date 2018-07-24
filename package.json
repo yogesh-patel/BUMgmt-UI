@@ -10,6 +10,7 @@
     "@types/googlemaps": "3.30.9",
     "@types/markerclustererplus": "2.1.33",
     "ajv": "6.5.1",
+    "axios": "^0.18.0",
     "chartist": "0.10.1",
     "classnames": "2.2.6",
     "keykey": "^2.1.1",
@@ -19,6 +20,7 @@
     "react-chartist": "0.13.1",
     "react-dom": "16.4.0",
     "react-google-maps": "9.4.5",
+    "react-material-ui-form-validator": "^2.0.1",
     "react-redux": "^5.0.7",
     "react-router-dom": "4.3.1",
     "react-router-redux": "^4.0.8",
@@ -26,7 +28,8 @@
     "react-swipeable-views": "0.12.13",
     "redux": "^4.0.0",
     "redux-logger": "^3.0.6",
-    "redux-thunk": "^2.3.0"
+    "redux-thunk": "^2.3.0",
+    "validator": "^10.4.0"
   },
   "scripts": {
     "start": "react-scripts start",
