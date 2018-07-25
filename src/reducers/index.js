@@ -4,9 +4,9 @@ import auth from './auth';
 import dashboardData from './dashboardData'
 
 const rootReducer = combineReducers({
-    auth,    
-    routing: routerReducer,
-    dashboardData
+    auth, 
+    dashboardData,
+    routing: routerReducer
 }); 
 
 export default rootReducer;

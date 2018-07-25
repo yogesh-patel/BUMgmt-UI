@@ -18,15 +18,10 @@ import CardBody from "components/Card/CardBody.jsx";
 import CardHeader from "components/Card/CardHeader.jsx";
 import CardFooter from "components/Card/CardFooter.jsx";
 import CustomInput from "components/CustomInput/CustomInput.jsx";
-import axios from 'axios'
 import { withRouter } from 'react-router-dom';
 import loginPageStyle from "assets/jss/material-dashboard-react/views/loginPage.jsx";
-
 import image from "assets/img/bg7.jpg";
-import history from "../../history";
-
 import { connect } from 'react-redux';
-import Validator from 'validator'
 import * as authActions from '../../actions/user.actions';
 import { validateInputData ,validateEmail } from "../../validations/LoginPage";
 import { bindActionCreators } from "redux";
@@ -101,14 +96,7 @@ class LoginPage extends React.Component {
   render() {
     const { classes, ...rest } = this.props;
     return (
-      <div>
-        {/* <Header
-          absolute
-          color="transparent"
-          brand="Material Kit React"
-          rightLinks={<HeaderLinks />}
-          {...rest}
-        /> */}
+      <div>      
         <div
           className={classes.pageHeader}
           style={{
@@ -119,47 +107,15 @@ class LoginPage extends React.Component {
         >
           <div className={classes.container}>
             <GridContainer justify="center">
-              <GridItem xs={12} sm={12} md={4}>
-                           
+              <GridItem xs={12} sm={12} md={4}>                           
                 <Card className={classes[this.state.cardAnimaton]}>
-                  <form className={classes.form}>
-                    
+                  <form className={classes.form}>                    
                     <CardHeader color="primary" className={classes.cardHeader}>
-                      <h4>Login </h4>
-                      {/* <div className={classes.socialLine}>
-                        <Button
-                          justIcon
-                          href="#pablo"
-                          target="_blank"
-                          color="transparent"
-                          onClick={e => e.preventDefault()}
-                        >
-                          <i className={"fab fa-twitter"} />
-                        </Button>
-                        <Button
-                          justIcon
-                          href="#pablo"
-                          target="_blank"
-                          color="transparent"
-                          onClick={e => e.preventDefault()}
-                        >
-                          <i className={"fab fa-facebook"} />
-                        </Button>
-                        <Button
-                          justIcon
-                          href="#pablo"
-                          target="_blank"
-                          color="transparent"
-                          onClick={e => e.preventDefault()}
-                        >
-                          <i className={"fab fa-google-plus-g"} />
-                        </Button>
-                      </div> */}
+                      <h4>Login </h4>                      
                     </CardHeader>
                     <p className={classes.divider}></p>                    
-                    <CardBody>                 
-                    {/* <p> {this.props.invalidUserError}</p>  */}
-                    <center><b><font size="4" color="red">{this.props.invalidUserError}</font></b></center> 
+                    <CardBody>               
+                      <center><b><font size="4" color="red">{this.props.invalidUserError}</font></b></center> 
                       <CustomInput
                         labelText="Username"
                         id="Username" 
@@ -210,8 +166,7 @@ class LoginPage extends React.Component {
                 </Card>
               </GridItem>
             </GridContainer>
-          </div>
-          {/* <Footer whiteFont /> */}
+          </div>          
         </div>
       </div>
     );
@@ -227,6 +182,5 @@ const mapDispatchToProps = (dispatch) => ({
   authActions: bindActionCreators(authActions,dispatch)
 
 });
-
 
 export default withRouter(connect(mapStateToProps,mapDispatchToProps)(withStyles(loginPageStyle)(LoginPage)));

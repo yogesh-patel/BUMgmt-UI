@@ -14,10 +14,10 @@ export const dashboardData = {
 
 export function getDashboardData() {
     return dispatch => {
-        let token1  = localStorage.getItem('token');
-        let token = {
+        const accessToken  = localStorage.getItem('token');
+        const token = {
             'headers': {
-              'Authorization': token1
+              'Authorization': accessToken
             }
           }        
         Axios.get("http://localhost:8080/api/dashboard/data",token)        

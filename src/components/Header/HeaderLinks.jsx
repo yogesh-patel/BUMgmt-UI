@@ -32,8 +32,7 @@ class HeaderLinks extends React.Component {
     anchorEl: null
   };
 
-  handleLogout = () => {
-    console.log('in logout handler')
+  handleLogout = () => {   
     this.props.logoutActions.logout();
   };
 
@@ -46,8 +45,11 @@ class HeaderLinks extends React.Component {
   };
 
   handleClose = () => {
-    this.setState({ open: false });    
-    this.setState({ anchorEl: null });   
+    this.setState({ 
+      open: false ,
+      anchorEl:null
+    });    
+    // this.setState({ anchorEl: null });   
   };
   render() {
     const { classes } = this.props;
