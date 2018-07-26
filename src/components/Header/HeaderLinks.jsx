@@ -9,6 +9,9 @@ import Grow from "@material-ui/core/Grow";
 import Paper from "@material-ui/core/Paper";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import Hidden from "@material-ui/core/Hidden";
+import Menu from '@material-ui/core/Menu';
+import * as logoutActions from '../../actions/user.actions';
+
 // @material-ui/icons
 import Person from "@material-ui/icons/Person";
 import Notifications from "@material-ui/icons/Notifications";
@@ -19,21 +22,39 @@ import CustomInput from "components/CustomInput/CustomInput.jsx";
 import Button from "components/CustomButtons/Button.jsx";
 
 import headerLinksStyle from "assets/jss/material-dashboard-react/components/headerLinksStyle";
+import { bindActionCreators } from "redux";
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 
 class HeaderLinks extends React.Component {
   state = {
-    open: false
+    open: false,
+    anchorEl: null
   };
-  handleClick = () => {
+
+  handleLogout = () => {   
+    this.props.logoutActions.logout();
+  };
+
+  handlePersonClick = (event) => {
+    this.setState({ anchorEl: event.currentTarget });
+  };
+  
+  handleClick = () => {    
     this.setState({ open: !this.state.open });
   };
 
   handleClose = () => {
-    this.setState({ open: false });
+    this.setState({ 
+      open: false ,
+      anchorEl:null
+    });    
+    // this.setState({ anchorEl: null });   
   };
   render() {
     const { classes } = this.props;
     const { open } = this.state;
+    const { anchorEl } = this.state;
     return (
       <div>
         <div className={classes.searchWrapper}>
@@ -139,6 +160,9 @@ class HeaderLinks extends React.Component {
           </Popper>
         </Manager>
         <Button
+          aria-owns={anchorEl ? 'logout-menu' : null}
+          aria-haspopup="true"
+          onClick={this.handlePersonClick}
           color={window.innerWidth > 959 ? "transparent" : "white"}
           justIcon={window.innerWidth > 959}
           simple={!(window.innerWidth > 959)}
@@ -150,9 +174,28 @@ class HeaderLinks extends React.Component {
             <p className={classes.linkText}>Profile</p>
           </Hidden>
         </Button>
+        <Menu
+          id="logout-menu"
+          anchorEl={anchorEl}
+          open={Boolean(anchorEl)}
+          onClose={this.handleClose}
+        >
+          <MenuItem onClick={this.handleClose}>Profile</MenuItem>
+          <MenuItem onClick={this.handleClose}>My account</MenuItem>
+          <MenuItem onClick={this.handleLogout}>Logout</MenuItem>
+        </Menu>
       </div>
     );
   }
 }
 
-export default withStyles(headerLinksStyle)(HeaderLinks);
+const mapStateToProps = (state) => ({
+  logout: state.auth.logout    
+})
+
+const mapDispatchToProps = (dispatch) => ({
+  logoutActions: bindActionCreators(logoutActions,dispatch)
+
+});
+
+export default withRouter(connect(mapStateToProps,mapDispatchToProps)(withStyles(headerLinksStyle)(HeaderLinks)));
